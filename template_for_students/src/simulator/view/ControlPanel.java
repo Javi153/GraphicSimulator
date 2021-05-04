@@ -96,12 +96,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		    public void actionPerformed(ActionEvent e) {
 			
 			Frame parent = (Frame) SwingUtilities.getWindowAncestor(ControlPanel.this);
-			ChooseForceDialog chooseForce = new ChooseForceDialog(parent);
 			
 			List<JSONObject> forces = _ctrl.getForceLawsInfo();
+
+			ChooseForceDialog chooseForce = new ChooseForceDialog(parent, forces);
 			
 			
-			int status = chooseForce.open(forces);
+			int status = chooseForce.open();
+			
 			JSONObject info = null;
 			if(status == 0) {
 			    //Mensaje de error

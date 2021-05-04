@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -20,8 +21,12 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import org.json.JSONObject;
 
@@ -35,19 +40,26 @@ public class ChooseForceDialog extends JDialog{
 	private MyListModel<String> _forceLawsListModel;
 	
 	private JList<String> _forceLawsList;
-	
 	private JComboBox<JSONObject> _forceLaws;
-	
 	private DefaultComboBoxModel<JSONObject> _forceLawsModel;
-    	
 	private int _status;
-	
+	private JsonTableModel _dataTableModel;
 	static final private char _clearSelectionKey = 'c';
-	
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.BLUE, 2);
+	
     	
-    	public ChooseForceDialog(Frame frame) {
+    	public ChooseForceDialog(Frame frame, List<JSONObject> forces) {
     	    super(frame, true);
+    	    
+    	//Limpiamos por lo que puediera haber antes
+    	    _forceLawsModel = new DefaultComboBoxModel<>();
+
+    	
+    	//Añadimos las fuerzas para luego ponerlas en el ComboBox
+    	for (JSONObject v : forces)
+			_forceLawsModel.addElement(v);
+    	
+    	
     	    initGUI();
     	}
     	
@@ -61,6 +73,34 @@ public class ChooseForceDialog extends JDialog{
     	    JPanel mainPanel = new JPanel(new BorderLayout());
     	    
     	    
+    	    //Insertamos texto con instrucciones sobre como proceder
+    	    JPanel infoPanel = new JPanel();
+    	    infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+    	    
+    	    infoPanel.add(new JLabel("Select a force law and provide values for the parametres in te Value column(default values are"
+    	    	+ "used for paremetres with no value)."));
+    	    
+    	    mainPanel.add(infoPanel);
+    	    
+    	    mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+    	    
+    	    //Tabla con los datos
+    	    _dataTableModel = new JsonTableModel();
+    	    JTable dataTable = new JTable(_dataTableModel) {
+    	    
+                    	private static final long serialVersionUID = 1L;
+                
+                	// we override prepareRenderer to resized rows to fit to content
+                	public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                		Component component = super.prepareRenderer(renderer, row, column);
+                		int rendererWidth = component.getPreferredSize().width;
+                		TableColumn tableColumn = getColumnModel().getColumn(column);
+                		tableColumn.setPreferredWidth(
+                				Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));
+                		return component;
+                	}
+    	    
+    	    //Creamos aquí la tabla
     	    JPanel contentPanel = new JPanel();
     	    contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
     	    mainPanel.add(contentPanel, BorderLayout.CENTER);
@@ -83,30 +123,29 @@ public class ChooseForceDialog extends JDialog{
     	    forcesPanel.add(new JScrollPane(_forceLawsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 		JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
     	    
-    	    JPanel infoPanel = new JPanel();
-    	    infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
     	    
-    	    infoPanel.add(new JLabel("Select a force law and provide values for the parametres in te Value column(default values are"
-    	    	+ "used for paremetres with no value)."));
+
     	    
-    	    mainPanel.add(infoPanel);
-    	    
+    	    //Para elegir el tipo de fuerza
     	    JPanel selectionPanel = new JPanel();
     	    selectionPanel.setAlignmentX(CENTER_ALIGNMENT);
     	    mainPanel.add(selectionPanel);
     	    
+    	    //Creamos un espacio intermedio para que sea más visual
     	    mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
     	    
+    	    //Añadimos los botones
     	    JPanel buttonsPanel = new JPanel();
     	    buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
     	    mainPanel.add(buttonsPanel);
     	    
-    	    
-    	    _forceLawsModel = new DefaultComboBoxModel<>();
+    	    //Creamos el ComboBox
     	    _forceLaws = new JComboBox<>(_forceLawsModel);
     	    
+    	    //Lo añadimos al panel ya declarado
     	    selectionPanel.add(_forceLaws);
     	    
+    	    //Añadimos los botones a su panel
             	//Botón de cancelar
             	JButton cancelButton = new JButton("Cancel");
         	cancelButton.addActionListener(new ActionListener() {
@@ -176,13 +215,16 @@ public class ChooseForceDialog extends JDialog{
 	}
     	
     	
-    	public int open(List<JSONObject> forces) {
-        	_forceLawsModel.removeAllElements();
-        	for (JSONObject v : forces)
-    			_forceLawsModel.addElement(v);
+    	public int open() {
+     	
         	setLocation(getParent().getLocation().x + 50, getParent().getLocation().y + 50);
-        	pack();
+        	//pack();
         	setVisible(true);
         	return _status;
     	}
+    	
+    	
+    	
+    	
+    	
 }
