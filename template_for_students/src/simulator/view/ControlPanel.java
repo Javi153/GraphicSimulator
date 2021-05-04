@@ -106,10 +106,10 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			
 			JSONObject info = null;
 			if(status == 0) {
-			    //Mensaje de error
+			    	//Algun tipo de mensaje de error
 			}
 			else {
-			    info = forces.get(status);
+			    //Cogemos el JSON que nos devuelve
 			}
 			_ctrl.setForceLaws(info);
 			
