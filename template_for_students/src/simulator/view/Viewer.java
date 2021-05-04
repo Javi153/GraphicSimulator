@@ -154,13 +154,14 @@ public class Viewer extends JComponent implements SimulatorObserver {
         	    gr.fillOval(_centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale), 5, 5);
         	    gr.drawString(bd.getId(), _centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale));
         	    if(_showVectors) {
-        		double v_X = bd.getVelocity().getX();
-        		double v_Y = bd.getVelocity().getY();
-        		double f_X = bd.getVelocity().getX();
-        		double f_Y = bd.getVelocity().getY();
+        		int v_X = (int) (bd.getVelocity().getX() / _scale);
+        		int v_Y = (int) (bd.getVelocity().getY() / _scale);
+        		int f_X = (int) (bd.getVelocity().getX() / _scale);
+        		int f_Y = (int) (bd.getVelocity().getY() / _scale);
+        		//Dibujammos los vectores de la fuerza y la velocidad
         		
-        		this.drawLineWithArrow(gr, _centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale), _centerX + (int) (v_X /_scale), _centerY + (int) (v_Y/_scale), 4, 4, Color.GREEN, Color.GREEN);
-        		this.drawLineWithArrow(gr, _centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale), _centerX + (int) (f_X /_scale), _centerY + (int) (f_Y/_scale), 4, 4, Color.BLUE, Color.BLUE);
+        		this.drawLineWithArrow(gr, _centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale), v_X + _centerX + (int) (bd_X/_scale), v_Y + _centerY - (int) (bd_Y/ _scale), 4, 4, Color.GREEN, Color.GREEN);
+        		this.drawLineWithArrow(gr, _centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale), f_X + _centerX + (int) (bd_X/_scale), f_Y + _centerY - (int) (bd_Y/ _scale), 4, 4, Color.BLUE, Color.BLUE);
         	    }
         	}
         	// TODO draw help if _showHelp is true

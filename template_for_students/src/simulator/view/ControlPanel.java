@@ -109,7 +109,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			    	//Algun tipo de mensaje de error
 			}
 			else {
-			    //Cogemos el JSON que nos devuelve
+			    info = chooseForce.getJSON();
 			}
 			_ctrl.setForceLaws(info);
 			

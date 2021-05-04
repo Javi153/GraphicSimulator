@@ -85,7 +85,7 @@ public class ChooseForceDialog extends JDialog{
 
  		@Override
  		public boolean isCellEditable(int rowIndex, int columnIndex) {
- 			return true;
+ 			return columnIndex == 1;
  		}
 
  		@Override
@@ -107,7 +107,7 @@ public class ChooseForceDialog extends JDialog{
  		// string value they should add the quotes as well as part of the
  		// value (2nd column).
  		//
- 		public String getData() {
+ 		public JSONObject getData() {
  			StringBuilder s = new StringBuilder();
  			s.append('{');
  			for (int i = 0; i < _data.length; i++) {
@@ -124,8 +124,8 @@ public class ChooseForceDialog extends JDialog{
  			if (s.length() > 1)
  				s.deleteCharAt(s.length() - 1);
  			s.append('}');
-
- 			return s.toString();
+ 			
+ 			return new JSONObject(s.toString());
  		}
  	}
     
@@ -158,7 +158,12 @@ public class ChooseForceDialog extends JDialog{
 	_dataTableModel = new JsonTableModel();
 	JTable dataTable = new JTable(_dataTableModel) {
 	    
-	 // we override prepareRenderer to resized rows to fit to content
+	 /**
+	     * 
+	     */
+	    private static final long serialVersionUID = 1L;
+
+		// we override prepareRenderer to resized rows to fit to content
         	 @Override
         	 public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         	 	Component component = super.prepareRenderer(renderer, row, column);
@@ -172,6 +177,7 @@ public class ChooseForceDialog extends JDialog{
 	JScrollPane tableScroll = new JScrollPane(dataTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 		JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	
+	//Mantenemos actualizada la tabla
 	
 	
 	//Aqui es donde añadimos el Jcombo
@@ -184,9 +190,51 @@ public class ChooseForceDialog extends JDialog{
 	
 	_forces = new JComboBox<>(_forcesModel);
 	
+	//Mantenemos actualizada la tabla al cambiar la opcion del JComboBox
+	_forces.addActionListener(new ActionListener(){
+	    public void actionPerformed(ActionEvent e) {
+		//Modificamos la tabla
+		switch(_forces.getSelectedIndex()) {
+		case(0): //Newton
+		    	_dataTableModel.setValueAt("G", 0, 0);
+		    	_dataTableModel.setValueAt("The gravitational constant(a number)", 0, 2);
+		    break;
+		case(1): //No force
+			_dataTableModel.clear();
+		    break;
+		case(2): //Moving fixedPoint
+
+        		_dataTableModel.setValueAt("c", 0, 0);
+        		_dataTableModel.setValueAt("The point towards which bodies move(a json list of 2 numbers, e.g.[100.0, 50.0])", 0, 2);
+        		_dataTableModel.setValueAt("g", 1, 0);
+        		_dataTableModel.setValueAt("The lenght of the acceleration vector(a number)", 1, 2);
+		    
+		    break;
+		}
+	    }
+	});
 	
 	viewsPanel.add(_forces);
 	
+	
+	
+	switch(_forces.getSelectedIndex()) {
+	case(0): //Newton
+	    	_dataTableModel.setValueAt("G", 0, 0);
+	    	_dataTableModel.setValueAt("The gravitational constant(a number)", 0, 2);
+	    break;
+	case(1): //No force
+		_dataTableModel.clear();
+	    break;
+	case(2): //Moving fixedPoint
+
+		_dataTableModel.setValueAt("c", 0, 0);
+		_dataTableModel.setValueAt("The point towards which bodies move(a json list of 2 numbers, e.g.[100.0, 50.0])", 0, 2);
+		_dataTableModel.setValueAt("g", 1, 0);
+		_dataTableModel.setValueAt("The lenght of the acceleration vector(a number)", 1, 2);
+	    
+	    break;
+	}
 	
 	//Boton de cancelar
 	JButton cancelButton = new JButton("Cancel");
@@ -214,6 +262,8 @@ public class ChooseForceDialog extends JDialog{
 	});
 	buttonsPanel.add(okButton);
 	
+	
+	
 	//Colocamos los componentes
 	mainPanel.add(helpMsg);
 	mainPanel.add(tableScroll);
@@ -224,7 +274,7 @@ public class ChooseForceDialog extends JDialog{
 	
 	//Ajustamos la ventana
 	
-	setPreferredSize(new Dimension(500, 200));
+	setPreferredSize(new Dimension(800, 400));
 	pack();
 	setResizable(false);
 	setVisible(false);
@@ -236,11 +286,13 @@ public class ChooseForceDialog extends JDialog{
 		setLocation(//
 				getParent().getLocation().x + getParent().getWidth() / 2 - getWidth() / 2, //
 				getParent().getLocation().y + getParent().getHeight() / 2 - getHeight() / 2);
+	setResizable(true);
 	setVisible(true);
+	
 	return _status;
     }
     
-    public String getJSON() {
+    public JSONObject getJSON() {
 	return _dataTableModel.getData();
     }
 }
