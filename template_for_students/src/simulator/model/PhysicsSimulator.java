@@ -52,7 +52,7 @@ public class PhysicsSimulator {
 	
 	
 	public void reset() {
-	    dt = 0.0;
+	    time = 0.0;
 	    bodies.clear();
 	    for(SimulatorObserver o : observers) {
 	    	o.onReset(bodies, time, dt, law.toString());

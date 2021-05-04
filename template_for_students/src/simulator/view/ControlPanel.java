@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -110,6 +111,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			}
 			else {
 			    info = chooseForce.getJSON();
+			    System.out.println(info);
 			}
 			_ctrl.setForceLaws(info);
 			
@@ -125,8 +127,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			runButton.setEnabled(false);
 			exitButton.setEnabled(false);
 			_stopped = false;
-			System.out.println(Double.parseDouble(_d_time.getText()));
-			_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));
+			System.out.println(_d_time.getText());
+			_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));//Da 0 y no se por que
 			int n = (int)_steps.getValue();
 			
 			ControlPanel.this.run_sim(n);
@@ -159,9 +161,17 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		
 		JLabel stepsLabel = new JLabel("Steps:");
-		_steps= new JSpinner(new SpinnerNumberModel(10000, 1, 1000000, 1));
+		_steps = new JSpinner(new SpinnerNumberModel(10000, 1, 1000000, 1));
 		JLabel timeLabel = new JLabel("Delta-Time:");
 		_d_time = new JTextField("2500.0");
+		
+		/*//Añadimos las acciones del dt y el numero de pasos
+		_d_time.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+			_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));
+		    }
+		});*/
+		
 		
 		add(openButton);
 		add(Box.createRigidArea(new Dimension(20, 0)));
@@ -220,6 +230,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub
 		Double aux = dt;
+		System.out.println(aux + "On Register");
+		
 		_d_time = new JTextField(aux.toString());
 	}
 
@@ -227,6 +239,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub
 		Double aux = dt;
+		System.out.println(aux + "Onreset");
+
 		_d_time = new JTextField(aux.toString());
 	}
 
@@ -246,6 +260,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	public void onDeltaTimeChanged(double dt) {
 		// TODO Auto-generated method stub
 		Double aux = dt;
+		System.out.println(aux + "ondeltatime");
 		_d_time = new JTextField(aux.toString());
 	}
 

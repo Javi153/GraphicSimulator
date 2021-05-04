@@ -39,47 +39,47 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		ctrl.addObserver(this);
 	}
 	private void initGUI() {
-	// TODO add border with title
-	this.setSize(150, 100);
-	setLayout(new BorderLayout());
-	setBorder(BorderFactory.createTitledBorder(
-		BorderFactory.createLineBorder(Color.black, 2),
-		"Viewer",
-		TitledBorder.LEFT, TitledBorder.TOP));
-	_bodies = new ArrayList<>();
-	_scale = 1.0;
-	_showHelp = true;
-	_showVectors = true;
-	addKeyListener(new KeyListener() {
-		// ...
-		@Override
-		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyChar()) {
-				case '-':
-					_scale = _scale * 1.1;
-					repaint();
-					break;
-				case '+':
-					_scale = Math.max(1000.0, _scale / 1.1);
-					repaint();
-					break;
-				case '=':
-					autoScale();
-					repaint();
-					break;
-				case 'h':
-					_showHelp = !_showHelp;
-					repaint();
-					break;
-				case 'v':
-					_showVectors = !_showVectors;
-					repaint();
-					break;
-				default:
-		}
-			
-		setVisible(true);
-	}
+        	// TODO add border with title
+        	this.setSize(150, 100);
+        	setLayout(new BorderLayout());
+        	setBorder(BorderFactory.createTitledBorder(
+        		BorderFactory.createLineBorder(Color.black, 2),
+        		"Viewer",
+        		TitledBorder.LEFT, TitledBorder.TOP));
+        	_bodies = new ArrayList<>();
+        	_scale = 1.0;
+        	_showHelp = true;
+        	_showVectors = true;
+        	addKeyListener(new KeyListener() {
+        		// ...
+        		@Override
+        		public void keyPressed(KeyEvent e) {
+        			switch (e.getKeyChar()) {
+        				case '-':
+        					_scale = _scale * 1.1;
+        					repaint();
+        					break;
+        				case '+':
+        					_scale = Math.max(1000.0, _scale / 1.1);
+        					repaint();
+        					break;
+        				case '=':
+        					autoScale();
+        					repaint();
+        					break;
+        				case 'h':
+        					_showHelp = !_showHelp;
+        					repaint();
+        					break;
+        				case 'v':
+        					_showVectors = !_showVectors;
+        					repaint();
+        					break;
+        				default:
+        		}
+        			
+        		setVisible(true);
+        	}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
@@ -183,13 +183,14 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	private void autoScale() {
         	double max = 1.0;
         	for (Body b : _bodies) {
-        	Vector2D p = b.getPosition();
-        	max = Math.max(max, Math.abs(p.getX()));
-        	max = Math.max(max, Math.abs(p.getY()));
-	}
-	double size = Math.max(1.0, Math.min(getWidth(), getHeight()));
+                	Vector2D p = b.getPosition();
+                	max = Math.max(max, Math.abs(p.getX()));
+                	max = Math.max(max, Math.abs(p.getY()));
+        	}
+        	double size = Math.max(1.0, Math.min(getWidth(), getHeight()));
 		_scale = max > size ? 4.0 * max / size : 1.0;
 	}
+	
 	// This method draws a line from (x1,y1) to (x2,y2) with an arrow.
 	// The arrow is of height h and width w.
 	// The last two arguments are the colors of the arrow and the line

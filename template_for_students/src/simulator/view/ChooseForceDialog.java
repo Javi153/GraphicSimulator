@@ -32,6 +32,7 @@ public class ChooseForceDialog extends JDialog{
     private static final long serialVersionUID = 1L;
     private int _status;
     
+    private int forceType = 0;
     //Atributos para crear el JComboBox
     private JComboBox<String> _forces;
     private DefaultComboBoxModel<String> _forcesModel;
@@ -194,28 +195,31 @@ public class ChooseForceDialog extends JDialog{
 	_forces.addActionListener(new ActionListener(){
 	    public void actionPerformed(ActionEvent e) {
 		//Modificamos la tabla
-		switch(_forces.getSelectedIndex()) {
+		ChooseForceDialog.this._dataTableModel.clear();
+
+		switch(ChooseForceDialog.this._forces.getSelectedIndex()) {
 		case(0): //Newton
-		    	_dataTableModel.setValueAt("G", 0, 0);
-		    	_dataTableModel.setValueAt("The gravitational constant(a number)", 0, 2);
+		    	ChooseForceDialog.this.forceType = 0;
+			ChooseForceDialog.this._dataTableModel.setValueAt("G", 0, 0);
+			ChooseForceDialog.this._dataTableModel.setValueAt("The gravitational constant(a number)", 0, 2);
 		    break;
 		case(1): //No force
-			_dataTableModel.clear();
+		  	ChooseForceDialog.this.forceType = 1;
 		    break;
 		case(2): //Moving fixedPoint
-
-        		_dataTableModel.setValueAt("c", 0, 0);
-        		_dataTableModel.setValueAt("The point towards which bodies move(a json list of 2 numbers, e.g.[100.0, 50.0])", 0, 2);
-        		_dataTableModel.setValueAt("g", 1, 0);
-        		_dataTableModel.setValueAt("The lenght of the acceleration vector(a number)", 1, 2);
+		    	ChooseForceDialog.this.forceType = 2;
+        		ChooseForceDialog.this._dataTableModel.setValueAt("c", 0, 0);
+        		ChooseForceDialog.this._dataTableModel.setValueAt("The point towards which bodies move(a json list of 2 numbers, e.g.[100.0, 50.0])", 0, 2);
+        		ChooseForceDialog.this._dataTableModel.setValueAt("g", 1, 0);
+        		ChooseForceDialog.this._dataTableModel.setValueAt("The lenght of the acceleration vector(a number)", 1, 2);
 		    
 		    break;
 		}
+		_dataTableModel.fireTableDataChanged();
 	    }
 	});
 	
 	viewsPanel.add(_forces);
-	
 	
 	
 	switch(_forces.getSelectedIndex()) {
@@ -293,6 +297,20 @@ public class ChooseForceDialog extends JDialog{
     }
     
     public JSONObject getJSON() {
-	return _dataTableModel.getData();
+	JSONObject j = new JSONObject();
+	String type = null;
+	switch(this.forceType) {
+	case(0):
+	    type = "nlug";
+	break;
+	case(1):
+	    type = "nf";
+	break;
+	case(2):
+	    type = "mtcp";
+	}
+	j.put("type", type);
+	j.put("data", _dataTableModel.getData());
+	return j;
     }
 }

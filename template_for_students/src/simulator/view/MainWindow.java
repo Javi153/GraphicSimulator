@@ -33,7 +33,9 @@ public class MainWindow extends JFrame{
 		JPanel secondPanel = new JPanel();
 		secondPanel.setLayout(new BoxLayout(secondPanel, BoxLayout.Y_AXIS));
 		secondPanel.add(new BodiesTable(_ctrl));
-		secondPanel.add(new Viewer(_ctrl));
+		Viewer viewer = new Viewer(_ctrl);
+		viewer.requestFocusInWindow();
+		secondPanel.add(viewer);
 		mainPanel.add(secondPanel, BorderLayout.CENTER);
         	
 		this.setMinimumSize(new Dimension(1500, 900));
