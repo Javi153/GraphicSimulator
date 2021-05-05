@@ -149,19 +149,20 @@ public class Viewer extends JComponent implements SimulatorObserver {
         	// TODO draw bodies (with vectors if _showVectors is true)
         	
         	for(Body bd : _bodies) {
-        	    double bd_X = bd.getPosition().getX();
-		    double bd_Y = bd.getPosition().getY();
-        	    gr.fillOval(_centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale), 5, 5);
-        	    gr.drawString(bd.getId(), _centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale));
+        	    gr.setColor(Color.blue);
+        	    int bd_X = _centerX + (int) (bd.getPosition().getX()/_scale);
+		    int bd_Y = _centerY - (int) (bd.getPosition().getY()/ _scale);
+        	    gr.fillOval(bd_X, bd_Y, 5, 5);
+        	    gr.drawString(bd.getId(), bd_X, bd_Y);
         	    if(_showVectors) {
-        		int v_X = (int) (bd.getVelocity().getX() / _scale);
-        		int v_Y = (int) (bd.getVelocity().getY() / _scale);
-        		int f_X = (int) (bd.getVelocity().getX() / _scale);
-        		int f_Y = (int) (bd.getVelocity().getY() / _scale);
+        		int v_X = bd_X - (int) (bd.getVelocity().getX()/ 1000);
+        		int v_Y = bd_Y - (int) (bd.getVelocity().getY()/ 1000);
+
+        		int f_X =  bd_X - (int) (bd.getForce().getX() / 10E26);
+        		int f_Y = bd_Y - (int) (bd.getForce().getY() / 10E26);
         		//Dibujammos los vectores de la fuerza y la velocidad
-        		
-        		this.drawLineWithArrow(gr, _centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale), v_X + _centerX + (int) (bd_X/_scale), v_Y + _centerY - (int) (bd_Y/ _scale), 4, 4, Color.GREEN, Color.GREEN);
-        		this.drawLineWithArrow(gr, _centerX + (int) (bd_X/_scale), _centerY - (int) (bd_Y/ _scale), f_X + _centerX + (int) (bd_X/_scale), f_Y + _centerY - (int) (bd_Y/ _scale), 4, 4, Color.BLUE, Color.BLUE);
+        		this.drawLineWithArrow(gr, bd_X, bd_Y,v_X, v_Y, 4, 4, Color.GREEN, Color.GREEN);
+        		this.drawLineWithArrow(gr, bd_X, bd_Y,f_X, f_Y, 4, 4, Color.RED, Color.RED);
         	    }
         	}
         	// TODO draw help if _showHelp is true

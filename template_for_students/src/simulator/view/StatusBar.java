@@ -1,18 +1,13 @@
 package simulator.view;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.SwingUtilities;
 
-import extra.jtable.MainWindow;
 import simulator.control.Controller;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
