@@ -33,6 +33,7 @@ public class ChooseForceDialog extends JDialog{
     private int _status;
     
     private int forceType = 0;
+    List<JSONObject> _fJSON;
     //Atributos para crear el JComboBox
     private JComboBox<String> _forces;
     private DefaultComboBoxModel<String> _forcesModel;
@@ -132,7 +133,8 @@ public class ChooseForceDialog extends JDialog{
     
     public ChooseForceDialog(Frame parent, List<JSONObject> forces) {
 	super(parent, true);
-	
+	//Guardamos los JSON para acceder posteriormente a su información
+	_fJSON = forces;
 	//Guardamos las descripciones de los JSON
 	_forcesModel = new DefaultComboBoxModel<>();
 	for(JSONObject j : forces)
@@ -201,7 +203,7 @@ public class ChooseForceDialog extends JDialog{
 		case(0): //Newton
 		    	ChooseForceDialog.this.forceType = 0;
 			ChooseForceDialog.this._dataTableModel.setValueAt("G", 0, 0);
-			ChooseForceDialog.this._dataTableModel.setValueAt("The gravitational constant(a number)", 0, 2);
+			ChooseForceDialog.this._dataTableModel.setValueAt(_fJSON.get(forceType).getJSONObject("data").get("G"), 0, 2);
 		    break;
 		case(1): //No force
 		  	ChooseForceDialog.this.forceType = 1;
@@ -209,9 +211,9 @@ public class ChooseForceDialog extends JDialog{
 		case(2): //Moving fixedPoint
 		    	ChooseForceDialog.this.forceType = 2;
         		ChooseForceDialog.this._dataTableModel.setValueAt("c", 0, 0);
-        		ChooseForceDialog.this._dataTableModel.setValueAt("The point towards which bodies move(a json list of 2 numbers, e.g.[100.0, 50.0])", 0, 2);
+        		ChooseForceDialog.this._dataTableModel.setValueAt(_fJSON.get(forceType).getJSONObject("data").get("c"), 0, 2);
         		ChooseForceDialog.this._dataTableModel.setValueAt("g", 1, 0);
-        		ChooseForceDialog.this._dataTableModel.setValueAt("The lenght of the acceleration vector(a number)", 1, 2);
+        		ChooseForceDialog.this._dataTableModel.setValueAt(_fJSON.get(forceType).getJSONObject("data").get("g"), 1, 2);
 		    
 		    break;
 		}
@@ -221,24 +223,6 @@ public class ChooseForceDialog extends JDialog{
 	
 	viewsPanel.add(_forces);
 	
-	
-	switch(_forces.getSelectedIndex()) {
-	case(0): //Newton
-	    	_dataTableModel.setValueAt("G", 0, 0);
-	    	_dataTableModel.setValueAt("The gravitational constant(a number)", 0, 2);
-	    break;
-	case(1): //No force
-		_dataTableModel.clear();
-	    break;
-	case(2): //Moving fixedPoint
-
-		_dataTableModel.setValueAt("c", 0, 0);
-		_dataTableModel.setValueAt("The point towards which bodies move(a json list of 2 numbers, e.g.[100.0, 50.0])", 0, 2);
-		_dataTableModel.setValueAt("g", 1, 0);
-		_dataTableModel.setValueAt("The lenght of the acceleration vector(a number)", 1, 2);
-	    
-	    break;
-	}
 	
 	//Boton de cancelar
 	JButton cancelButton = new JButton("Cancel");
@@ -307,7 +291,7 @@ public class ChooseForceDialog extends JDialog{
 	    type = "nf";
 	break;
 	case(2):
-	    type = "mtcp";
+	    type = "mtfp";
 	}
 	j.put("type", type);
 	j.put("data", _dataTableModel.getData());

@@ -107,15 +107,13 @@ public class Controller {
 	    }
 	}
 	
-	//TO DO: Actualizar para que las cosas de la GUI vayan
 	public List<JSONObject> getForceLawsInfo(){
-	    /*Aqui vienen cosas de GUI que todavia no entiendo*/
 	    return constructorForceLaws.getInfo();
 	}
 	
 	public void setForceLaws(JSONObject info) {
 		ForceLaws aux = constructorForceLaws.createInstance(info);
-	    simulator.setForceLaws(aux);
+		simulator.setForceLaws(aux);
 	}
 	
 }
