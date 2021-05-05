@@ -169,11 +169,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		add(Box.createRigidArea(new Dimension(20, 0)));
 		add(runButton);
 		add(stopButton);
+		add(Box.createRigidArea(new Dimension(10, 0)));
 		add(stepsLabel);
-		_steps.setMaximumSize(new Dimension(500, 50));
+		_steps.setMaximumSize(new Dimension(300, 50));
 		add(_steps);
+		add(Box.createRigidArea(new Dimension(10, 0)));
 		add(timeLabel);
-		_d_time.setMaximumSize(new Dimension(500, 50));
+		_d_time.setPreferredSize(new Dimension(100, 50));
+		_d_time.setMaximumSize(new Dimension(150, 50));
 		add(_d_time);
 		add(Box.createHorizontalGlue());
 		add(exitButton);

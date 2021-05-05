@@ -32,13 +32,16 @@ public class MainWindow extends JFrame{
 		mainPanel.add(new StatusBar(_ctrl), BorderLayout.PAGE_END);
 		JPanel secondPanel = new JPanel();
 		secondPanel.setLayout(new BoxLayout(secondPanel, BoxLayout.Y_AXIS));
-		secondPanel.add(new BodiesTable(_ctrl));
+		BodiesTable bt = new BodiesTable(_ctrl);
+		bt.setPreferredSize(new Dimension(getWidth(), getHeight()/2));
+		secondPanel.add(bt);
 		Viewer viewer = new Viewer(_ctrl);
 		viewer.requestFocusInWindow();
 		secondPanel.add(viewer);
 		mainPanel.add(secondPanel, BorderLayout.CENTER);
         	
-		this.setMinimumSize(new Dimension(1500, 900));
+		this.pack();
+		this.setMinimumSize(new Dimension(800, 600));
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
