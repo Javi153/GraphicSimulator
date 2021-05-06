@@ -42,23 +42,23 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton runButton;
 	private JButton stopButton;
 	private JButton exitButton;
-	
-	
+
+
 	private JTextField _d_time;
 	private JSpinner _steps;
 	private Controller _ctrl;
 	private boolean _stopped;
-	
+
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
 		_stopped = true;
 		initGUI();
 		_ctrl.addObserver(this);
 	}
-	
-	
+
+
 	private void initGUI() {
-	    	this.setPreferredSize(new Dimension(150, 60));
+		this.setPreferredSize(new Dimension(150, 60));
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		String path = "resources/icons/";
 		//Open Button
@@ -66,103 +66,103 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		openButton = new JButton(open);
 		//Anadimos funcionalidad al botón
 		openButton.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			JFileChooser fileChooser = new JFileChooser();
-			int ret = fileChooser.showOpenDialog(ControlPanel.this);
-			if(ret == JFileChooser.APPROVE_OPTION) {
-			    JOptionPane.showMessageDialog(ControlPanel.this,  "You have selected to open this file: "
-				    + fileChooser.getSelectedFile());
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int ret = fileChooser.showOpenDialog(ControlPanel.this);
+				if(ret == JFileChooser.APPROVE_OPTION) {
+					JOptionPane.showMessageDialog(ControlPanel.this,  "You have selected to open this file: "
+							+ fileChooser.getSelectedFile());
+				}
+				else {
+					JOptionPane.showMessageDialog(ControlPanel.this, "You have selected cancel or an error has occurred");
+				}
+				FileInputStream in;
+				try {
+					in = new FileInputStream(fileChooser.getSelectedFile());
+					_ctrl.reset();
+					_ctrl.loadBodies(in);
+				}
+				catch(FileNotFoundException ex) {
+					System.out.println(ex.getMessage());
+				}
 			}
-			else {
-			    JOptionPane.showMessageDialog(ControlPanel.this, "You have selected cancel or an error has occurred");
-			}
-			FileInputStream in;
-			try {
-			    	in = new FileInputStream(fileChooser.getSelectedFile());
-				_ctrl.reset();
-				_ctrl.loadBodies(in);
-			}
-			catch(FileNotFoundException ex) {
-			    System.out.println(ex.getMessage());
-			}
-		    }
 		});
-		
+
 		//Physics Button
 		ImageIcon physics = new ImageIcon(path + "physics.png");
 		physicsButton = new JButton(physics);
 		physicsButton.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			
-			Frame parent = (Frame) SwingUtilities.getWindowAncestor(ControlPanel.this);
-			
-			List<JSONObject> forces = _ctrl.getForceLawsInfo();
+			public void actionPerformed(ActionEvent e) {
 
-			ChooseForceDialog chooseForce = new ChooseForceDialog(parent, forces);
-			
-			
-			int status = chooseForce.open();
-			
-			JSONObject info = null;
-			if(status == 0) {
-			    JOptionPane.showMessageDialog(ControlPanel.this, "You have selected cancel or an error has occurred");
+				Frame parent = (Frame) SwingUtilities.getWindowAncestor(ControlPanel.this);
+
+				List<JSONObject> forces = _ctrl.getForceLawsInfo();
+
+				ChooseForceDialog chooseForce = new ChooseForceDialog(parent, forces);
+
+
+				int status = chooseForce.open();
+
+				JSONObject info = null;
+				if(status == 0) {
+					JOptionPane.showMessageDialog(ControlPanel.this, "You have selected cancel or an error has occurred");
+				}
+				else {
+					info = chooseForce.getJSON();
+					_ctrl.setForceLaws(info);
+				}
+
 			}
-			else {
-			    info = chooseForce.getJSON();
-			    _ctrl.setForceLaws(info);
-			}
-			
-		    }
 		});
 		//Run Button
 		ImageIcon run = new ImageIcon(path + "run.png");
 		runButton = new JButton(run);
 		runButton.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			openButton.setEnabled(false);
-			physicsButton.setEnabled(false);
-			runButton.setEnabled(false);
-			exitButton.setEnabled(false);
-			_stopped = false;
-			_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));//Da 0 y no se por que
-			int n = (int)_steps.getValue();
-			
-			ControlPanel.this.run_sim(n);
-		    }
+			public void actionPerformed(ActionEvent e) {
+				openButton.setEnabled(false);
+				physicsButton.setEnabled(false);
+				runButton.setEnabled(false);
+				exitButton.setEnabled(false);
+				_stopped = false;
+				_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));//Da 0 y no se por que
+				int n = (int)_steps.getValue();
+
+				ControlPanel.this.run_sim(n);
+			}
 		});
-		
+
 		//StopButton
 		ImageIcon stop = new ImageIcon(path + "stop.png");
 		stopButton = new JButton(stop);
 		stopButton.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			_stopped = true;
-		    }
+			public void actionPerformed(ActionEvent e) {
+				_stopped = true;
+			}
 		});
-		
+
 		//Exit Button
 		ImageIcon exit = new ImageIcon(path + "exit.png");
 		exitButton = new JButton(exit);
 		exitButton.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-			    int answ = JOptionPane.showOptionDialog(ControlPanel.this,
-				    "Are you sure you want to exit?", "Exit",
-				    JOptionPane.YES_NO_OPTION,
-				    JOptionPane.WARNING_MESSAGE, null, null, null);
-			    if(answ == 0 ) {
-				System.exit(0);
-			    }
-		    }
+			public void actionPerformed(ActionEvent e) {
+				int answ = JOptionPane.showOptionDialog(ControlPanel.this,
+						"Are you sure you want to exit?", "Exit",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.WARNING_MESSAGE, null, null, null);
+				if(answ == 0 ) {
+					System.exit(0);
+				}
+			}
 		});
-		
-		
+
+
 		JLabel stepsLabel = new JLabel("Steps:");
 		_steps = new JSpinner(new SpinnerNumberModel(10000, 1, 1000000, 1));
 		JLabel timeLabel = new JLabel("Delta-Time:");
 		_d_time = new JTextField("2500.0");
-		
-		
-		
+
+
+
 		add(openButton);
 		add(Box.createRigidArea(new Dimension(20, 0)));
 		add(physicsButton);
@@ -182,39 +182,39 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		add(exitButton);
 		this.setVisible(true);
 	}
-	
+
 	// other private/protected methods
 	// ...
 	private void run_sim(int n) {
 		if ( n>0 && !_stopped ) {
-		try {
-		_ctrl.run(1);
-		} catch (Exception e) {
-		// TODO show the error in a dialog box
-		System.out.println(e.getMessage());		    
-		    
-		//Activamos los botones(podriamos cambiarlo a un metodo aparte)
-		openButton.setEnabled(true);
-		physicsButton.setEnabled(true);
-		runButton.setEnabled(true);
-		exitButton.setEnabled(true);
-		_stopped = true;
-		return;
-		}
-		SwingUtilities.invokeLater( new Runnable() {
-			@Override
-			public void run() {
-			run_sim(n-1);
+			try {
+				_ctrl.run(1);
+			} catch (Exception e) {
+				// TODO show the error in a dialog box
+				System.out.println(e.getMessage());		    
+
+				//Activamos los botones(podriamos cambiarlo a un metodo aparte)
+				openButton.setEnabled(true);
+				physicsButton.setEnabled(true);
+				runButton.setEnabled(true);
+				exitButton.setEnabled(true);
+				_stopped = true;
+				return;
 			}
-		});
-			} else {
+			SwingUtilities.invokeLater( new Runnable() {
+				@Override
+				public void run() {
+					run_sim(n-1);
+				}
+			});
+		} else {
 			_stopped = true;
 			//Activamos los botones(podriamos cambiarlo a un metodo aparte)
 			openButton.setEnabled(true);
 			physicsButton.setEnabled(true);
 			runButton.setEnabled(true);
 			exitButton.setEnabled(true);
-			}
+		}
 	}
 	// SimulatorObserver methods
 	// ...
@@ -236,13 +236,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -255,6 +255,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
