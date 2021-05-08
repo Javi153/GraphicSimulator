@@ -72,18 +72,18 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				if(ret == JFileChooser.APPROVE_OPTION) {
 					JOptionPane.showMessageDialog(ControlPanel.this,  "You have selected to open this file: "
 							+ fileChooser.getSelectedFile());
+					FileInputStream in;
+					try {
+						in = new FileInputStream(fileChooser.getSelectedFile());
+						_ctrl.reset();
+						_ctrl.loadBodies(in);
+					}
+					catch(FileNotFoundException ex) {
+						System.out.println(ex.getMessage());
+					}
 				}
 				else {
 					JOptionPane.showMessageDialog(ControlPanel.this, "You have selected cancel or an error has occurred");
-				}
-				FileInputStream in;
-				try {
-					in = new FileInputStream(fileChooser.getSelectedFile());
-					_ctrl.reset();
-					_ctrl.loadBodies(in);
-				}
-				catch(FileNotFoundException ex) {
-					System.out.println(ex.getMessage());
 				}
 			}
 		});
