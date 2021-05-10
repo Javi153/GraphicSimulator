@@ -149,11 +149,8 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		// TODO draw bodies (with vectors if _showVectors is true)
 
 		for(Body bd : _bodies) {
-			gr.setColor(Color.blue);
 			int bd_X = _centerX + (int) (bd.getPosition().getX()/_scale);
 			int bd_Y = _centerY - (int) (bd.getPosition().getY()/ _scale);
-			gr.fillOval(bd_X, bd_Y, 5, 5);
-			gr.drawString(bd.getId(), bd_X - 8, bd_Y - 8);
 			if(_showVectors) {
 				int v_X = (int) (bd.getVelocity().direction().getX()*20) + bd_X;
 				int v_Y = (int) (bd.getVelocity().direction().getY()*20) + bd_Y;
@@ -164,6 +161,11 @@ public class Viewer extends JComponent implements SimulatorObserver {
 				this.drawLineWithArrow(gr, bd_X, bd_Y, v_X,  v_Y, 4, 4, Color.GREEN, Color.GREEN);
 				this.drawLineWithArrow(gr, bd_X, bd_Y,f_X, f_Y, 4, 4, Color.RED, Color.RED);
 			}
+			
+			gr.setColor(Color.blue);
+			gr.fillOval(bd_X, bd_Y, 5, 5);
+			gr.drawString(bd.getId(), bd_X - 8, bd_Y - 8);
+
 		}
 		// TODO draw help if _showHelp is true
 		if(_showHelp) {
