@@ -4,7 +4,6 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.cli.CommandLine;
@@ -152,7 +151,7 @@ public class Main {
 		
 		//mode
 		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
-				.desc("Execution Mode. Possible values: ’batch’ (Batch mode), ’gui’ (Graphical User Interface mode). Default value: ’batch’.").build());
+				.desc("Execution Mode. Possible values: ï¿½batchï¿½ (Batch mode), ï¿½guiï¿½ (Graphical User Interface mode). Default value: ï¿½batchï¿½.").build());
 		
 		/*Aqui acaban*/
 

@@ -64,6 +64,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Open Button
 		ImageIcon open = new ImageIcon(path + "open.png");
 		openButton = new JButton(open);
+		openButton.setToolTipText("Open a file");
 		//Anadimos funcionalidad al botón
 		openButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,6 +92,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Physics Button
 		ImageIcon physics = new ImageIcon(path + "physics.png");
 		physicsButton = new JButton(physics);
+		physicsButton.setToolTipText("Select the forces");
 		physicsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -117,6 +119,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Run Button
 		ImageIcon run = new ImageIcon(path + "run.png");
 		runButton = new JButton(run);
+		runButton.setToolTipText("Run the simulator");
 		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openButton.setEnabled(false);
@@ -134,6 +137,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//StopButton
 		ImageIcon stop = new ImageIcon(path + "stop.png");
 		stopButton = new JButton(stop);
+		stopButton.setToolTipText("Stop the simulator");
 		stopButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_stopped = true;
@@ -143,6 +147,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Exit Button
 		ImageIcon exit = new ImageIcon(path + "exit.png");
 		exitButton = new JButton(exit);
+		exitButton.setToolTipText("Exit Simulator");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int answ = JOptionPane.showOptionDialog(ControlPanel.this,
