@@ -25,7 +25,6 @@ public class MainWindow extends JFrame{
 	private void initGUI() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		setContentPane(mainPanel);
-		//TODO complete this method to build the GUI
 		setIconImage(new ImageIcon("resources/icons/physics.png").getImage());
 		mainPanel.add(new ControlPanel(_ctrl), BorderLayout.PAGE_START);
 		mainPanel.add(new StatusBar(_ctrl), BorderLayout.PAGE_END);
