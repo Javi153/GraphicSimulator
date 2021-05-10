@@ -155,13 +155,13 @@ public class Viewer extends JComponent implements SimulatorObserver {
         	    gr.fillOval(bd_X, bd_Y, 5, 5);
         	    gr.drawString(bd.getId(), bd_X, bd_Y);
         	    if(_showVectors) {
-        		int v_X = bd_X + (int) (bd.getVelocity().getX()/ 1000);
-        		int v_Y = bd_Y + (int) (bd.getVelocity().getY()/ 1000);
+        		int v_X = (int) (bd.getVelocity().direction().getX()*60) + bd_X;
+        		int v_Y = (int) (bd.getVelocity().direction().getY()*60) + bd_Y;
 
-        		int f_X =  bd_X + (int) (bd.getForce().getX() / 10E26);
-        		int f_Y = bd_Y + (int) (bd.getForce().getY() / 10E26);
+        		int f_X =  bd_X + (int) (bd.getForce().direction().getX()*60);
+        		int f_Y = bd_Y + (int) (bd.getForce().direction().getY()*60);
         		//Dibujammos los vectores de la fuerza y la velocidad
-        		this.drawLineWithArrow(gr, bd_X, bd_Y,v_X, v_Y, 4, 4, Color.GREEN, Color.GREEN);
+        		this.drawLineWithArrow(gr, bd_X, bd_Y, v_X,  v_Y, 4, 4, Color.GREEN, Color.GREEN);
         		this.drawLineWithArrow(gr, bd_X, bd_Y,f_X, f_Y, 4, 4, Color.RED, Color.RED);
         	    }
         	}
