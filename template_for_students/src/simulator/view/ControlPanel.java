@@ -1,11 +1,9 @@
 package simulator.view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -18,12 +16,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.json.JSONObject;
 
@@ -72,7 +68,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				int ret = fileChooser.showOpenDialog(ControlPanel.this);
 				if(ret == JFileChooser.APPROVE_OPTION) {
 					JOptionPane.showMessageDialog(ControlPanel.this,  "You have selected to open this file: "
-							+ fileChooser.getSelectedFile());
+							+ fileChooser.getSelectedFile().getName());
 					FileInputStream in;
 					try {
 						in = new FileInputStream(fileChooser.getSelectedFile());
