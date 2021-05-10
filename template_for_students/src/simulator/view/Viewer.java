@@ -249,7 +249,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	public void onAdvance(List<Body> bodies, double time) {
 		// TODO Auto-generated method stub
 		this._bodies = bodies;
-	    	this.repaint();
+	    this.repaint();
 	}
 	@Override
 	public void onDeltaTimeChanged(double dt) {

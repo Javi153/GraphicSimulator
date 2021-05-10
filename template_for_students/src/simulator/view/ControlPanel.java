@@ -67,7 +67,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Anadimos funcionalidad al botón
 		openButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser("resources/examples");
 				int ret = fileChooser.showOpenDialog(ControlPanel.this);
 				if(ret == JFileChooser.APPROVE_OPTION) {
 					JOptionPane.showMessageDialog(ControlPanel.this,  "You have selected to open this file: "
