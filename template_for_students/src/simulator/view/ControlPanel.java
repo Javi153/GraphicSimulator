@@ -71,7 +71,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				int ret = fileChooser.showOpenDialog(ControlPanel.this);
 				if(ret == JFileChooser.APPROVE_OPTION) {
 					JOptionPane.showMessageDialog(ControlPanel.this,  "You have selected to open this file: "
-							+ fileChooser.getSelectedFile());
+							+ fileChooser.getSelectedFile().getName());
 					FileInputStream in;
 					try {
 						in = new FileInputStream(fileChooser.getSelectedFile());

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -28,6 +29,7 @@ public class MainWindow extends JFrame{
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		setContentPane(mainPanel);
 		//TODO complete this method to build the GUI
+		setIconImage(new ImageIcon("resources/icons/physics.png").getImage());
 		mainPanel.add(new ControlPanel(_ctrl), BorderLayout.PAGE_START);
 		mainPanel.add(new StatusBar(_ctrl), BorderLayout.PAGE_END);
 		JPanel secondPanel = new JPanel();
