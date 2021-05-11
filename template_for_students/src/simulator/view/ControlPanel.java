@@ -16,8 +16,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
@@ -162,25 +164,26 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		JLabel timeLabel = new JLabel("Delta-Time:");
 		_d_time = new JTextField("2500.0");
 
-
-
-		add(openButton);
-		add(Box.createRigidArea(new Dimension(20, 0)));
-		add(physicsButton);
-		add(Box.createRigidArea(new Dimension(20, 0)));
-		add(runButton);
-		add(stopButton);
-		add(Box.createRigidArea(new Dimension(10, 0)));
-		add(stepsLabel);
+		JToolBar toolBar = new JToolBar();
+		toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
+		toolBar.add(openButton);
+		toolBar.addSeparator(new Dimension(20, 10));
+		toolBar.add(physicsButton);
+		toolBar.addSeparator(new Dimension(20, 10));
+		toolBar.add(runButton);
+		toolBar.add(stopButton);
+		toolBar.addSeparator(new Dimension(20, 10));
+		toolBar.add(stepsLabel);
 		_steps.setMaximumSize(new Dimension(300, 50));
-		add(_steps);
-		add(Box.createRigidArea(new Dimension(10, 0)));
-		add(timeLabel);
+		toolBar.add(_steps);
+		toolBar.addSeparator(new Dimension(20, 10));
+		toolBar.add(timeLabel);
 		_d_time.setPreferredSize(new Dimension(100, 50));
 		_d_time.setMaximumSize(new Dimension(150, 50));
-		add(_d_time);
-		add(Box.createHorizontalGlue());
-		add(exitButton);
+		toolBar.add(_d_time);
+		toolBar.add(Box.createHorizontalGlue());
+		toolBar.add(exitButton);
+		add(toolBar);
 		this.setVisible(true);
 	}
 
