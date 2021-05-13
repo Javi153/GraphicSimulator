@@ -160,7 +160,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 
 		JLabel stepsLabel = new JLabel("Steps:");
-		_steps = new JSpinner(new SpinnerNumberModel(10000, 1, 1000000, 1));
+		_steps = new JSpinner(new SpinnerNumberModel(150, 1, 1000000, 1));
 		JLabel timeLabel = new JLabel("Delta-Time:");
 		_d_time = new JTextField("2500.0");
 
@@ -227,14 +227,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub
 		Double aux = dt;		
-		_d_time = new JTextField(aux.toString());
+		_d_time.setText(aux.toString());
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub
 		Double aux = dt;
-		_d_time = new JTextField(aux.toString());
+		_d_time.setText(aux.toString());
 	}
 
 	@Override
@@ -253,7 +253,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	public void onDeltaTimeChanged(double dt) {
 		// TODO Auto-generated method stub
 		Double aux = dt;
-		_d_time = new JTextField(aux.toString());
+		_d_time.setText(aux.toString());
 	}
 
 	@Override
