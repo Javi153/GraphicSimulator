@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -30,8 +31,9 @@ public class ChooseForceDialog extends JDialog{
      * 
      */
     private static final long serialVersionUID = 1L;
+    //Indica el estado del cuadro de diálogo
     private int _status;
-    
+    //Indica el tipo de fuerza con la que estamos trabajando actualmente
     private int forceType = 0;
     List<JSONObject> _fJSON;
     //Atributos para crear el JComboBox
@@ -42,8 +44,8 @@ public class ChooseForceDialog extends JDialog{
     private JsonTableModel _dataTableModel;
     
     
-// This table model stores internally the content of the table. Use
- 	// getData() to get the content as JSON.
+    	// Este modelo de tabla guarda internamente los datos introducidos. Usar
+ 	// getData() para obtener la información en formato JSON
  	//
  	private class JsonTableModel extends AbstractTableModel {
 
@@ -100,15 +102,10 @@ public class ChooseForceDialog extends JDialog{
  			_data[rowIndex][columnIndex] = o.toString();
  		}
 
- 		// Method getData() returns a String corresponding to a JSON structure
- 		// with column 1 as keys and column 2 as values.
+ 		// El método getData()devuelve un JSON con 
+ 		// la columna nº 1 como key y la 2ª como value
 
- 		// This method return the coIt is important to build it as a string, if
- 		// we create a corresponding JSONObject and use put(key,value), all values
- 		// will be added as string. This also means that if users want to add a
- 		// string value they should add the quotes as well as part of the
- 		// value (2nd column).
- 		//
+
  		public JSONObject getData() {
  			StringBuilder s = new StringBuilder();
  			s.append('{');
@@ -147,6 +144,7 @@ public class ChooseForceDialog extends JDialog{
 	
 	_status = 0;
 	
+	//Fijamos los distintos parámetros del cuadro de diálogo
 	setTitle("Force Laws Selection");
 	JPanel mainPanel = new JPanel();
 	mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -170,6 +168,7 @@ public class ChooseForceDialog extends JDialog{
         	 @Override
         	 public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         	 	Component component = super.prepareRenderer(renderer, row, column);
+        	 	component.setBackground(Color.WHITE);
         	 	int rendererWidth = component.getPreferredSize().width;
         	 	TableColumn tableColumn = getColumnModel().getColumn(column);
         	 	tableColumn.setPreferredWidth(
@@ -280,6 +279,10 @@ public class ChooseForceDialog extends JDialog{
 	return _status;
     }
     
+    /**
+     * 
+     * @return Un JSONObject que representa la fuerza que el usuario ha elegido
+     */
     public JSONObject getJSON() {
 	JSONObject j = new JSONObject();
 	String type = null;

@@ -32,7 +32,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	 * 
 	 */
 	private static final long serialVersionUID = 1696025726243841820L;
-	// ...
+	//Botones del juego
 	private JButton openButton;
 	private JButton physicsButton;
 	private JButton runButton;
@@ -64,6 +64,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Anadimos funcionalidad al botón
 		openButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    //Creamos el JFileChooser para elegir el archivo desde el que cargamos los datos
 				JFileChooser fileChooser = new JFileChooser("resources/examples");
 				int ret = fileChooser.showOpenDialog(ControlPanel.this);
 				if(ret == JFileChooser.APPROVE_OPTION) {
@@ -91,16 +92,16 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		physicsButton.setToolTipText("Select the forces");
 		physicsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+			    	//Elegimos la fuerza que se va a aplicar
 				Frame parent = (Frame) SwingUtilities.getWindowAncestor(ControlPanel.this);
-
+				//Obtenemos los JSON de las posibles fuerzas
 				List<JSONObject> forces = _ctrl.getForceLawsInfo();
-
+				//Creamos el cuadro de diálogo correspondiente a la tabla para que se elijan las fuerzas
 				ChooseForceDialog chooseForce = new ChooseForceDialog(parent, forces);
 
-
+				//Guardamos la forma de salir del cuadro anterioir
 				int status = chooseForce.open();
-
+				//Se muestra una ventana en caso de error, en otro caso actualizamos la fuerza
 				JSONObject info = null;
 				if(status == 0) {
 					JOptionPane.showMessageDialog(ControlPanel.this, "You have selected cancel or an error has occurred");
