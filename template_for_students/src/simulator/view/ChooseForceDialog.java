@@ -193,6 +193,11 @@ public class ChooseForceDialog extends JDialog{
 	
 	_forces = new JComboBox<>(_forcesModel);
 	
+	//Inicializamos la tabla
+    	forceType = 0;
+	_dataTableModel.setValueAt("G", 0, 0);
+	_dataTableModel.setValueAt(_fJSON.get(forceType).getJSONObject("data").get("G"), 0, 2);
+	
 	//Mantenemos actualizada la tabla al cambiar la opcion del JComboBox
 	_forces.addActionListener(new ActionListener(){
 	    public void actionPerformed(ActionEvent e) {
