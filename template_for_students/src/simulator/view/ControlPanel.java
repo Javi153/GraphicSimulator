@@ -55,6 +55,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 
 	private void initGUI() {
+	    	//Fijamos valores del Panel
 		this.setPreferredSize(new Dimension(150, 60));
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		String path = "resources/icons/";
@@ -67,8 +68,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			public void actionPerformed(ActionEvent e) {
 			    //Creamos el JFileChooser para elegir el archivo desde el que cargamos los datos
 				JFileChooser fileChooser = new JFileChooser("resources/examples");
+				//Limitamos los archivos a elegit para que solo se puedan coger los JSON
 				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				        "JOSN Files", "json");
+				        "JSON Files", "json");
 				fileChooser.setFileFilter(filter);
 				int ret = fileChooser.showOpenDialog(ControlPanel.this);
 				if(ret == JFileChooser.APPROVE_OPTION) {
@@ -76,6 +78,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 							+ fileChooser.getSelectedFile().getName());
 					FileInputStream in;
 					try {
+					    //Creamos un flujo de entrada para el archivo y ajustamos los valores del simulador de acuerdo a esos valores extraidos
 						in = new FileInputStream(fileChooser.getSelectedFile());
 						_ctrl.reset();
 						_ctrl.loadBodies(in);
@@ -112,6 +115,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 					JOptionPane.showMessageDialog(ControlPanel.this, "You have selected cancel or an error has occurred");
 				}
 				else {
+				    //Fijamos la fuerza segun lo elegido por el usuario
 					info = chooseForce.getJSON();
 					try {
 					    _ctrl.setForceLaws(info);
@@ -131,12 +135,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		runButton.setToolTipText("Run the simulator");
 		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    //Desactivamos los botones
 				openButton.setEnabled(false);
 				physicsButton.setEnabled(false);
 				runButton.setEnabled(false);
 				exitButton.setEnabled(false);
 				_stopped = false;
 				try {
+				    //Fijamos el delta time
 				_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));
 				}
 				catch(NumberFormatException ex) {
@@ -144,7 +150,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 					    "There was a problem parsing the deltaTime", JOptionPane.ERROR_MESSAGE);
 				    }
 				int n = (int)_steps.getValue();
-
+				//Corremos el simulador
 				ControlPanel.this.run_sim(n);
 			}
 		});
@@ -165,6 +171,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		exitButton.setToolTipText("Exit Simulator");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    //Mostramos un cuadro de dialogo para la salida del juego
 				int answ = JOptionPane.showOptionDialog(ControlPanel.this,
 						"Are you sure you want to exit?", "Exit",
 						JOptionPane.YES_NO_OPTION,
@@ -203,9 +210,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		add(toolBar);
 		this.setVisible(true);
 	}
-
-	// other private/protected methods
-	// ...
+	
+	/**
+	 * Corremos el simulador n pasos
+	 * @param n
+	 */
 	private void run_sim(int n) {
 		if ( n>0 && !_stopped ) {
 			try {
@@ -225,6 +234,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			SwingUtilities.invokeLater( new Runnable() {
 				@Override
 				public void run() {
+				    //Recursivo
 					run_sim(n-1);
 				}
 			});
@@ -242,40 +252,31 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		// TODO Auto-generated method stub
 		Double aux = dt;		
 		_d_time.setText(aux.toString());
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		// TODO Auto-generated method stub
 		Double aux = dt;
 		_d_time.setText(aux.toString());
 	}
 
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onDeltaTimeChanged(double dt) {
-		// TODO Auto-generated method stub
 		Double aux = dt;
 		_d_time.setText(aux.toString());
 	}
 
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
-		// TODO Auto-generated method stub
-
 	}
 }

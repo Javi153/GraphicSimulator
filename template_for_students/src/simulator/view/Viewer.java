@@ -34,24 +34,30 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	private boolean _showHelp;
 	private boolean _showVectors;
 
+	
+	//Constructor
 	Viewer(Controller ctrl) {
 		initGUI();
 		ctrl.addObserver(this);
 	}
+	
+	//Iniciar la interfaz
 	private void initGUI() {
-		// TODO add border with title
+	    //Fijamos ciertos parametros globales del componente
 		this.setSize(150, 100);
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder(Color.black, 2),
 				"Viewer",
 				TitledBorder.LEFT, TitledBorder.TOP));
+		
+		//Inicializamos ciertos valores
 		_bodies = new ArrayList<>();
 		_scale = 1.0;
 		_showHelp = true;
 		_showVectors = true;
 		addKeyListener(new KeyListener() {
-			// ...
+			// Para parsear los keyboardShortcuts
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyChar()) {
@@ -83,18 +89,14 @@ public class Viewer extends JComponent implements SimulatorObserver {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 		addMouseListener(new MouseListener() {
-			// ...
+			// Para fijar la atención en el viewer cuando el raton se situe en la ventana
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				requestFocus();
@@ -102,26 +104,18 @@ public class Viewer extends JComponent implements SimulatorObserver {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 	}
@@ -141,13 +135,12 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		_centerX = getWidth() / 2;
 		_centerY = getHeight() / 2;
 
-		//draw a cross at center
+		//Dibujamos una cruz en el medio
 		gr.setColor(Color.blue);
 		gr.drawLine(_centerX, _centerY - 5, _centerX, _centerY + 5);
 		gr.drawLine(_centerX + 5, _centerY, _centerX - 5, _centerY);
 
-		// TODO draw bodies (with vectors if _showVectors is true)
-
+		//Dibujamos los cuerpos y los vectores en caso de que se nos lo pida
 		for(Body bd : _bodies) {
 			int bd_X = _centerX + (int) (bd.getPosition().getX()/_scale);
 			int bd_Y = _centerY - (int) (bd.getPosition().getY()/ _scale);
@@ -167,7 +160,8 @@ public class Viewer extends JComponent implements SimulatorObserver {
 			gr.drawString(bd.getId(), bd_X - 8, bd_Y - 8);
 
 		}
-		// TODO draw help if _showHelp is true
+
+		//Dibujamos la ayuda en caso de que sea necesario
 		if(_showHelp) {
 			String helpMsg = "h:toggle help, v: toggle vectors, +: zoom-in, -: zoom-out,"
 					+ "=: fit ";
@@ -181,8 +175,8 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		this.setBackground(Color.white);
 		this.setVisible(true);
 	}
-	// other private/protected methods
-	// ...
+
+	//Para auto escalar la vista
 	private void autoScale() {
 		double max = 1.0;
 		for (Body b : _bodies) {
@@ -220,12 +214,10 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		g.setColor(arrowColor);
 		g.fillPolygon(xpoints, ypoints, 3);
 	}
-	// SimulatorObserver methods
-	// ...
+
 
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		// TODO Auto-generated method stub
 		this._bodies = bodies;
 		this.autoScale();
 		this.repaint();
@@ -233,7 +225,6 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		// TODO Auto-generated method stub
 		this._bodies = bodies;
 		this.autoScale();
 		this.repaint();
@@ -241,7 +232,6 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
-		// TODO Auto-generated method stub
 		this._bodies = bodies;
 		this.autoScale();
 		this.repaint();
@@ -249,17 +239,13 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
-		// TODO Auto-generated method stub
 		this._bodies = bodies;
 		this.repaint();
 	}
 	@Override
 	public void onDeltaTimeChanged(double dt) {
-		// TODO Auto-generated method stub
-
 	}
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
-		// TODO Auto-generated method stub
-
-	}}
+	}
+}

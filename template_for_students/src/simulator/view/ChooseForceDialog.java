@@ -56,7 +56,7 @@ public class ChooseForceDialog extends JDialog{
  		
  		private final static int numRow = 5;
  		private final static int numCol = 3;
-
+ 		//Decimos el nombre de los titulos de las coloumnas
  		private String[] _header = { "Key", "Value", "Description" };
  		String[][] _data;
 
@@ -176,6 +176,7 @@ public class ChooseForceDialog extends JDialog{
         	 	return component;
         	 }
 	};
+	//Creamos la barra de desplazamiento
 	JScrollPane tableScroll = new JScrollPane(dataTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 		JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	
@@ -266,7 +267,6 @@ public class ChooseForceDialog extends JDialog{
 	setResizable(false);
 	setVisible(false);
     }
-    
     
     public int open() {
 	if (getParent() != null)
