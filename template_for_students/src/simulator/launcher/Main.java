@@ -22,7 +22,6 @@ import simulator.model.ForceLaws;
 import simulator.factories.*;
 import simulator.model.PhysicsSimulator;
 import simulator.view.MainWindow;
-import simulator.view.StatusBar;
 
 public class Main {
 

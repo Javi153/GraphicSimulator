@@ -16,12 +16,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.json.JSONObject;
 
@@ -68,6 +68,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			public void actionPerformed(ActionEvent e) {
 			    //Creamos el JFileChooser para elegir el archivo desde el que cargamos los datos
 				JFileChooser fileChooser = new JFileChooser("resources/examples");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				        "JOSN Files", "json");
+				fileChooser.setFileFilter(filter);
 				int ret = fileChooser.showOpenDialog(ControlPanel.this);
 				if(ret == JFileChooser.APPROVE_OPTION) {
 					JOptionPane.showMessageDialog(ControlPanel.this,  "You have selected to open this file: "
@@ -78,8 +81,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 						_ctrl.reset();
 						_ctrl.loadBodies(in);
 					}
-					catch(FileNotFoundException ex) {
-						System.out.println(ex.getMessage());
+					catch(Exception ex) {
+						JOptionPane.showMessageDialog(ControlPanel.this, "There was a problem with the file");
 					}
 				}
 				else {
