@@ -81,7 +81,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 						_ctrl.loadBodies(in);
 					}
 					catch(Exception ex) {
-						JOptionPane.showMessageDialog(ControlPanel.this, "There was a problem with the file");
+					    JOptionPane.showMessageDialog(ControlPanel.this, "There was an error parsing this file", "There was an error parsing this file", JOptionPane.ERROR_MESSAGE); 
 					}
 				}
 				else {
@@ -128,7 +128,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				runButton.setEnabled(false);
 				exitButton.setEnabled(false);
 				_stopped = false;
-				_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));//Da 0 y no se por que
+				try {
+				_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));
+				}
+				catch(NumberFormatException ex) {
+				    JOptionPane.showMessageDialog(ControlPanel.this, "There was a problem parsing the deltaTime", "There was a problem parsing the deltaTime", JOptionPane.ERROR_MESSAGE); 				}
 				int n = (int)_steps.getValue();
 
 				ControlPanel.this.run_sim(n);
@@ -198,7 +202,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				_ctrl.run(1);
 			} catch (Exception e) {
 				// TODO show the error in a dialog box
-				System.out.println(e.getMessage());		    
+			    JOptionPane.showMessageDialog(ControlPanel.this, "There was a problem", e.getMessage(), JOptionPane.ERROR_MESSAGE);
 
 				//Activamos los botones(podriamos cambiarlo a un metodo aparte)
 				openButton.setEnabled(true);
@@ -216,7 +220,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			});
 		} else {
 			_stopped = true;
-			//Activamos los botones(podriamos cambiarlo a un metodo aparte)
+			//Activamos los botones
 			openButton.setEnabled(true);
 			physicsButton.setEnabled(true);
 			runButton.setEnabled(true);
