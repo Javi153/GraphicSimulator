@@ -18,8 +18,8 @@ public class BodiesTable extends JPanel {
 	 */
 	private static final long serialVersionUID = -3561504278904781532L;
 
-	BodiesTable(Controller ctrl) {
-		setLayout(new BorderLayout());
+	BodiesTable(Controller ctrl) { //Constructor
+		setLayout(new BorderLayout()); //Utilizamos un BorderLayout
 		setBorder(BorderFactory.createTitledBorder(
 		BorderFactory.createLineBorder(Color.black, 2),
 		"Bodies",
