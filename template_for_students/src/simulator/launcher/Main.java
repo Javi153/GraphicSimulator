@@ -356,8 +356,12 @@ public class Main {
 		PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo)); //Creamos el simulador
 		Controller controller = new Controller(simulator, _bodyFactory, _forceLawsFactory);	//Creamos el controlador
 		if(_inFile != null) {
-			InputStream is = new FileInputStream(new File(_inFile));
-			controller.loadBodies(is);
+			try {
+				InputStream is = new FileInputStream(new File(_inFile));
+				controller.loadBodies(is);
+			}catch(FileNotFoundException e) {
+				throw e;
+			}
 		}
 		try {
 			SwingUtilities.invokeAndWait(new Runnable(){
