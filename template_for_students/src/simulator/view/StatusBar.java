@@ -24,21 +24,21 @@ implements SimulatorObserver {
 	private JLabel _currLaws; // for gravity laws
 	private JLabel _numOfBodies; // for number of bodies
 	
-	StatusBar(Controller ctrl) {
-		initGUI();
-		ctrl.addObserver(this);
+	StatusBar(Controller ctrl) {//Controlador
+		initGUI(); //Iniciamos la interfaz de la status bar
+		ctrl.addObserver(this); //Añadimos el observador al controlador
 	}
 	
 	private void initGUI() {
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		this.setLayout(new FlowLayout(FlowLayout.LEFT)); //escogemos un FlowLayout
 		this.setBorder(BorderFactory.createBevelBorder(1));
 		// TODO complete the code to build the tool bar
-		_currTime = new JLabel("Time: 0.0");
-		_currTime.setPreferredSize(new Dimension(150, 15));
+		_currTime = new JLabel("Time: 0.0"); //Inicializamos las etiquetas con valores por defecto
+		_currTime.setPreferredSize(new Dimension(150, 15)); //Y les ponemos un tamaño a cada etiqueta
 		add(_currTime);
 		JSeparator sep1 = new JSeparator(JSeparator.VERTICAL);
-		sep1.setPreferredSize(new Dimension(10, 20));
-		add(sep1);
+		sep1.setPreferredSize(new Dimension(10, 20)); //También ponemos separadores entre las distintas etiquetas con ese tamaño
+		add(sep1); //Y añadimos tanto etiquetas como separadores al panel
 		_numOfBodies = new JLabel("Bodies : 0");
 		_numOfBodies.setPreferredSize(new Dimension(150, 15));
 		add(_numOfBodies);

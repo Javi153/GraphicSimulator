@@ -21,8 +21,8 @@ implements SimulatorObserver {
 	private String[] _colNames = { "Id", "Mass", "Position", "Velocity", "Force" };
 	
 	BodiesTableModel(Controller ctrl) {
-		_bodies = new ArrayList<>();
-		ctrl.addObserver(this);
+		_bodies = new ArrayList<>(); //Creamos una nueva lista de cuerpos
+		ctrl.addObserver(this); //Y añadimos el observador al controlador
 	}
 	
 	@Override
