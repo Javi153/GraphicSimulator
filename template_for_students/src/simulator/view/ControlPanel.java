@@ -81,7 +81,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 						_ctrl.loadBodies(in);
 					}
 					catch(Exception ex) {
-					    JOptionPane.showMessageDialog(ControlPanel.this, "There was an error parsing this file", "There was an error parsing this file", JOptionPane.ERROR_MESSAGE); 
+					    JOptionPane.showMessageDialog(ControlPanel.this, "There was an error parsing this file",
+						    "There was an error parsing this file", JOptionPane.ERROR_MESSAGE); 
 					}
 				}
 				else {
@@ -112,7 +113,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				}
 				else {
 					info = chooseForce.getJSON();
-					_ctrl.setForceLaws(info);
+					try {
+					    _ctrl.setForceLaws(info);
+					}
+					catch(IllegalArgumentException ex) {
+					    JOptionPane.showMessageDialog(ControlPanel.this,
+						    "Durante el parseo ha ocurrido una " + ex.getMessage() ,
+						    "There was a problem", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
 			}
@@ -132,7 +140,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				_ctrl.setDeltaTime(Double.parseDouble(_d_time.getText()));
 				}
 				catch(NumberFormatException ex) {
-				    JOptionPane.showMessageDialog(ControlPanel.this, "There was a problem parsing the deltaTime", "There was a problem parsing the deltaTime", JOptionPane.ERROR_MESSAGE); 				}
+				    JOptionPane.showMessageDialog(ControlPanel.this, "There was a problem parsing the deltaTime",
+					    "There was a problem parsing the deltaTime", JOptionPane.ERROR_MESSAGE);
+				    }
 				int n = (int)_steps.getValue();
 
 				ControlPanel.this.run_sim(n);
@@ -227,8 +237,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			exitButton.setEnabled(true);
 		}
 	}
+
 	// SimulatorObserver methods
-	// ...
 
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
