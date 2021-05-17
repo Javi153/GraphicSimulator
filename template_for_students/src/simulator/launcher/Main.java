@@ -351,9 +351,13 @@ public class Main {
 		}
 	}
 	
-	private static void startGuiMode() throws InvocationTargetException, InterruptedException {
+	private static void startGuiMode() throws InvocationTargetException, InterruptedException, FileNotFoundException {
 		PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo)); //Creamos el simulador
 		Controller controller = new Controller(simulator, _bodyFactory, _forceLawsFactory);	//Creamos el controlador
+		if(_inFile != null) {
+			InputStream is = new FileInputStream(new File(_inFile));
+			controller.loadBodies(is);
+		}
 		try {
 			SwingUtilities.invokeAndWait(new Runnable(){
 				public void run() {
