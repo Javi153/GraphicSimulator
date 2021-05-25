@@ -54,19 +54,18 @@ public class ChooseForceDialog extends JDialog{
  		 */
  		private static final long serialVersionUID = 1L;
  		
- 		private final static int numRow = 5;
  		private final static int numCol = 3;
  		//Decimos el nombre de los titulos de las coloumnas
  		private String[] _header = { "Key", "Value", "Description" };
  		String[][] _data;
 
  		JsonTableModel() {
- 			_data = new String[numRow][numCol];
  			clear();
  		}
 
  		public void clear() {
- 			for (int i = 0; i < numRow; i++)
+ 			_data = new String[getRowCount()][numCol];
+ 			for (int i = 0; i < getRowCount(); i++)
  				for (int j = 0; j < numCol; j++)
  					_data[i][j] = "";
  			fireTableStructureChanged();
@@ -79,7 +78,7 @@ public class ChooseForceDialog extends JDialog{
 
  		@Override
  		public int getRowCount() {
- 			return _data.length;
+ 			return _fJSON.get(forceType).getJSONObject("data").keySet().size();
  		}
 
  		@Override
@@ -202,19 +201,16 @@ public class ChooseForceDialog extends JDialog{
 	_forces.addActionListener(new ActionListener(){
 	    public void actionPerformed(ActionEvent e) {
 		//Modificamos la tabla
-		ChooseForceDialog.this._dataTableModel.clear();
-
+	    	ChooseForceDialog.this.forceType = ChooseForceDialog.this._forces.getSelectedIndex();
+			ChooseForceDialog.this._dataTableModel.clear();
 		switch(ChooseForceDialog.this._forces.getSelectedIndex()) {
 		case(0): //Newton
-		    	ChooseForceDialog.this.forceType = 0;
 			ChooseForceDialog.this._dataTableModel.setValueAt("G", 0, 0);
 			ChooseForceDialog.this._dataTableModel.setValueAt(_fJSON.get(forceType).getJSONObject("data").get("G"), 0, 2);
 		    break;
 		case(1): //No force
-		  	ChooseForceDialog.this.forceType = 1;
 		    break;
 		case(2): //Moving fixedPoint
-		    	ChooseForceDialog.this.forceType = 2;
         		ChooseForceDialog.this._dataTableModel.setValueAt("c", 0, 0);
         		ChooseForceDialog.this._dataTableModel.setValueAt(_fJSON.get(forceType).getJSONObject("data").get("c"), 0, 2);
         		ChooseForceDialog.this._dataTableModel.setValueAt("g", 1, 0);

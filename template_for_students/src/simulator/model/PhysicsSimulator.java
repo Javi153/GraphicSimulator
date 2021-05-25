@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.*;
@@ -19,34 +20,36 @@ public class PhysicsSimulator {
 		this.dt = dt;
 		this.law = law;
 		bodies = new ArrayList<Body>();
+		//Cambiar a solo lectura
 		observers = new ArrayList<SimulatorObserver>();
 	}
 
 	//Metodos
 	//Realiza un paso del simulador
 	public void advance() {
-		
-		for (Body bd : bodies) { //Reinicia la fuerza sobre los cuerpos
-			bd.resetForce();
+		List<Body> bd = Collections.unmodifiableList(bodies);
+		for (Body body : bodies) { //Reinicia la fuerza sobre los cuerpos
+			body.resetForce();
 		}
 		law.apply(bodies); //Aplica la fuerza sobre los cuerpos
-		for(Body bd : bodies) { //Mueve cada cuerpo en un tiempo equivalente a un paso
-			bd.move(dt);
+		for(Body body : bodies) { //Mueve cada cuerpo en un tiempo equivalente a un paso
+			body.move(dt);
 		}
 		time += dt; //Aumenta el contador del simulador
 		for(SimulatorObserver o : observers) {
-			o.onAdvance(bodies, time);
+			o.onAdvance(bd, time);
 		}
 	}
 
 	//A�ade un cuerpo a la lista de cuerpos
 	public void addBody(Body b) {
+		List<Body> bd = Collections.unmodifiableList(bodies);
 		if(bodies.contains(b)){//Si el cuerpo ya esta a�adido se lanza una excepcion
 				throw new IllegalArgumentException();
 		}
 		bodies.add(b);
 		for(SimulatorObserver o : observers) {
-			o.onBodyAdded(bodies, b);
+			o.onBodyAdded(bd, b);
 		}
 	}
 	
@@ -54,8 +57,9 @@ public class PhysicsSimulator {
 	public void reset() {
 	    time = 0.0;
 	    bodies.clear();
+	    List<Body> bd = Collections.unmodifiableList(bodies);
 	    for(SimulatorObserver o : observers) {
-	    	o.onReset(bodies, time, dt, law.toString());
+	    	o.onReset(bd, time, dt, law.toString());
 	    }
 	}
 	
@@ -105,8 +109,9 @@ public class PhysicsSimulator {
 	}
 
 	public void addObserver(SimulatorObserver o) {
+		List<Body> bd = Collections.unmodifiableList(bodies);
 		observers.add(o);
-		o.onRegister(bodies, time, dt, law.toString());
+		o.onRegister(bd, time, dt, law.toString());
 		
 	}
 

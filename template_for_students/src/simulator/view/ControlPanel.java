@@ -136,10 +136,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			    //Desactivamos los botones
-				openButton.setEnabled(false);
-				physicsButton.setEnabled(false);
-				runButton.setEnabled(false);
-				exitButton.setEnabled(false);
+				activateButtons(false);
 				_stopped = false;
 				try {
 				    //Fijamos el delta time
@@ -224,10 +221,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			    JOptionPane.showMessageDialog(ControlPanel.this, "There was a problem", e.getMessage(), JOptionPane.ERROR_MESSAGE);
 
 				//Activamos los botones(podriamos cambiarlo a un metodo aparte)
-				openButton.setEnabled(true);
-				physicsButton.setEnabled(true);
-				runButton.setEnabled(true);
-				exitButton.setEnabled(true);
+				activateButtons(true);
 				_stopped = true;
 				return;
 			}
@@ -241,10 +235,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		} else {
 			_stopped = true;
 			//Activamos los botones
-			openButton.setEnabled(true);
-			physicsButton.setEnabled(true);
-			runButton.setEnabled(true);
-			exitButton.setEnabled(true);
+			activateButtons(true);
 		}
 	}
 
@@ -278,5 +269,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
+	}
+	
+	public void activateButtons(boolean activate) {
+		openButton.setEnabled(activate);
+		physicsButton.setEnabled(activate);
+		runButton.setEnabled(activate);
+		exitButton.setEnabled(activate);
 	}
 }
